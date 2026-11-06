@@ -1,0 +1,6 @@
+# Everything defaults to the maintainer.
+*                       @WasathTheekshana
+
+# The validation library is the part people copy, so changes there get a closer look.
+/src/lib/card/          @WasathTheekshana
+/docs/brand-ranges.md   @WasathTheekshana

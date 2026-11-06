@@ -1,0 +1,26 @@
+name: Feature request
+description: An idea for the card, the lessons or the library
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The problem first, then your idea. Examples help.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you have in mind
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Other things you considered
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Ground rules
+      options:
+        - label: It does not need analytics, tracking or a call to an outside service from the browser
+          required: true

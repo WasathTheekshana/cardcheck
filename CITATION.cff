@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use CardCheck in teaching or research, please cite it like this."
+title: "CardCheck"
+type: software
+authors:
+  - alias: "WasathTheekshana"
+repository-code: "https://github.com/WasathTheekshana/cardcheck"
+license: MIT
+abstract: >-
+  An interactive 3D site that teaches how payment card numbers are validated in the browser:
+  issuer prefixes, lengths and the Luhn checksum.
+keywords:
+  - luhn
+  - payment-cards
+  - input-validation
+  - education
+  - nextjs
+  - threejs

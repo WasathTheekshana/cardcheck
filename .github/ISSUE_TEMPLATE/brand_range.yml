@@ -1,0 +1,50 @@
+name: Brand range correction
+description: A prefix or length is wrong, missing or out of date
+labels: [data]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Range changes need a source. See [how ranges are handled](https://github.com/WasathTheekshana/cardcheck/blob/main/docs/brand-ranges.md).
+        **Please do not paste a full real card number.** The first 6 to 8 digits are enough.
+  - type: dropdown
+    id: network
+    attributes:
+      label: Network
+      options:
+        - Visa
+        - Mastercard
+        - American Express
+        - Discover
+        - Diners Club
+        - JCB
+        - UnionPay
+        - Maestro
+        - Another network
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change
+      options:
+        - A prefix is missing
+        - A prefix is wrong or too broad
+        - A length is missing or wrong
+        - Two networks are being mixed up
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: The prefix or range, the length, and what CardCheck does today versus what it should do.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: A link to the network's own documentation or a published table.
+    validations:
+      required: true

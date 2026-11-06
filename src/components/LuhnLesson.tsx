@@ -50,7 +50,7 @@ export function LuhnLesson() {
         <div className="flex flex-wrap gap-3">
           <input
             id="luhn-input"
-            className="field max-w-md flex-1 font-mono text-lg tracking-wider"
+            className="field max-w-md flex-1 font-mono text-base tracking-wide sm:text-lg sm:tracking-wider"
             inputMode="numeric"
             autoComplete="off"
             spellCheck={false}

@@ -17,7 +17,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/70 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2 sm:flex-nowrap sm:px-6 sm:py-3">
         <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
           <span
             aria-hidden
@@ -31,7 +31,7 @@ export function SiteHeader() {
           CardCheck
         </Link>
 
-        <nav aria-label="Main" className="-mr-2 flex gap-1 overflow-x-auto">
+        <nav aria-label="Main" className="-mx-2 flex w-full gap-1 overflow-x-auto sm:mx-0 sm:-mr-2 sm:w-auto">
           {LINKS.map(({ href, label }) => {
             const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
             return (
@@ -39,7 +39,7 @@ export function SiteHeader() {
                 key={href}
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`relative whitespace-nowrap rounded-lg px-3 py-1.5 text-sm transition-colors ${
+                className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-sm transition-colors sm:py-1.5 ${
                   active ? "text-ink" : "text-ink-soft hover:bg-white/5 hover:text-ink"
                 }`}
               >

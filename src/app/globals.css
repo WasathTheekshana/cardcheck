@@ -187,3 +187,16 @@ body {
   opacity: 0.45;
   cursor: not-allowed;
 }
+
+/* Phones and tablets: no sideways page scroll, and bigger tap targets. */
+body {
+  overflow-x: clip;
+}
+@media (pointer: coarse) {
+  .btn {
+    min-height: 2.75rem;
+  }
+  .field {
+    min-height: 2.75rem;
+  }
+}

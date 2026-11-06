@@ -197,7 +197,7 @@ export function CardPlayground() {
               </label>
               <input
                 id={ids.number}
-                className="field font-mono text-lg tracking-wider"
+                className="field font-mono text-base tracking-wide sm:text-lg sm:tracking-wider"
                 inputMode="numeric"
                 autoComplete="off"
                 spellCheck={false}
@@ -212,8 +212,8 @@ export function CardPlayground() {
               />
             </div>
 
-            <div className="grid grid-cols-[1fr_6.5rem_5.5rem] gap-3">
-              <div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-[1fr_6.5rem_5.5rem]">
+              <div className="col-span-2 sm:col-span-1">
                 <label htmlFor={ids.name} className="mb-1.5 block text-sm text-ink-soft">
                   Name on card
                 </label>

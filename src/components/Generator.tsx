@@ -116,7 +116,7 @@ export function Generator() {
               const v = validateCard(n);
               return (
                 <li key={n} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
-                  <span className="font-mono text-lg tracking-wider">{formatNumber(n, brand, n.length)}</span>
+                  <span className="font-mono text-base tracking-wide sm:text-lg sm:tracking-wider">{formatNumber(n, brand, n.length)}</span>
                   <span className="flex items-center gap-3">
                     <span className={`text-sm ${v.valid ? "text-ok" : "text-bad"}`}>
                       {v.valid ? "Passes all checks" : "Fails"}

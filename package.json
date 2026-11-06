@@ -12,7 +12,7 @@
     "npm": "please-use-yarn"
   },
   "scripts": {
-    "preinstall": "node scripts/require-yarn.mjs",
+    "preinstall": "node -e \"if(!(process.env.npm_config_user_agent||'').startsWith('yarn/')){console.error('\\nThis project uses Yarn only. Run yarn install instead.\\n');process.exit(1)}\"",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

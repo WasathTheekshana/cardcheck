@@ -15,5 +15,5 @@
 - [ ] `yarn lint`, `yarn typecheck`, `yarn test` and `yarn build` pass
 - [ ] Validation changes come with tests, including the cases on both sides of a range
 - [ ] Range changes link to a source
-- [ ] No real card numbers, image-file logos or tracking were added
+- [ ] No real card numbers, extra logos or tracking were added
 - [ ] Only `yarn.lock` changed for dependencies, no `package-lock.json` or `pnpm-lock.yaml`

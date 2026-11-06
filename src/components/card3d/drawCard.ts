@@ -146,6 +146,41 @@ function paintContactless(ctx: CanvasRenderingContext2D, x: number, y: number, c
   ctx.restore();
 }
 
+const HOLOGRAM_BRANDS = new Set(["visa", "mastercard", "maestro", "jcb", "unionpay", "discover"]);
+
+/** The little foil sticker most networks put on the lower right of the front. */
+function paintHologram(ctx: CanvasRenderingContext2D, id: string) {
+  if (!HOLOGRAM_BRANDS.has(id)) return;
+  const x = 890;
+  const y = 508;
+  const r = 44;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.clip();
+  const g = ctx.createConicGradient(0.6, x, y);
+  ["#f6d6ff", "#a9e6ff", "#c9ffd9", "#fff3b0", "#ffc4d6", "#f6d6ff"].forEach((c, i, a) => g.addColorStop(i / (a.length - 1), c));
+  ctx.globalAlpha = 0.8;
+  ctx.fillStyle = g;
+  ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  ctx.globalAlpha = 0.35;
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 1.5;
+  for (let i = 1; i < 7; i++) {
+    ctx.beginPath();
+    ctx.arc(x, y, i * 6.5, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  ctx.restore();
+  ctx.save();
+  ctx.strokeStyle = "rgba(255,255,255,0.55)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+}
+
 function embossed(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, ink: string) {
   ctx.fillStyle = "rgba(0,0,0,0.38)";
   ctx.fillText(text, x + 2.5, y + 3);
@@ -166,7 +201,8 @@ export function drawFront(ctx: CanvasRenderingContext2D, o: FrontOptions) {
   paintContactless(ctx, 292, 264, brand.colors.ink);
 
   // Network mark, top right. The neutral card has none until the number says which network it is.
-  drawLogo(ctx, brand.id, CARD_W - 70, 118, brand.colors.ink, fonts);
+  drawLogo(ctx, brand.id, CARD_W - 70, 118);
+  paintHologram(ctx, brand.id);
 
   ctx.textAlign = "left";
   ctx.globalAlpha = o.dim ? 0.55 : 1;
@@ -175,6 +211,13 @@ export function drawFront(ctx: CanvasRenderingContext2D, o: FrontOptions) {
   const size = o.number.length > 20 ? 50 : 62;
   ctx.font = `500 ${size}px ${fonts.mono}`;
   embossed(ctx, o.number, 74, 440, brand.colors.ink);
+  const digits = o.number.replace(/\D/g, "");
+  if (digits.length >= 4 && brand.id !== "neutral") {
+    ctx.font = `500 19px ${fonts.mono}`;
+    ctx.globalAlpha = o.dim ? 0.4 : 0.65;
+    ctx.fillText(digits.slice(0, 4), 78, 384);
+    ctx.globalAlpha = o.dim ? 0.55 : 1;
+  }
 
   ctx.globalAlpha = o.dim ? 0.55 : 0.9;
   ctx.font = `500 21px ${fonts.sans}`;
@@ -238,10 +281,39 @@ export function drawBack(ctx: CanvasRenderingContext2D, o: BackOptions) {
   ctx.textAlign = "left";
   ctx.font = `400 20px ${fonts.sans}`;
   ctx.fillText("For testing and learning. This is not a real card.", 60, 520);
+  ctx.globalAlpha = 0.5;
+  ctx.font = `400 17px ${fonts.sans}`;
+  ctx.fillText("AUTHORISED SIGNATURE. NOT VALID UNLESS SIGNED.", 60, 358);
+  ctx.globalAlpha = 0.28;
+  for (let i = 0; i < 3; i++) {
+    ctx.fillRect(60, 398 + i * 20, 420 - i * 60, 5);
+  }
   ctx.globalAlpha = 1;
-  drawLogo(ctx, brand.id, CARD_W - 60, 505, brand.colors.ink, fonts, 0.62);
+  drawLogo(ctx, brand.id, CARD_W - 60, 500, 0.62);
 
   ctx.restore();
+}
+
+export interface BumpOptions {
+  number: string;
+  name: string;
+  expiry: string;
+  fonts: FaceFonts;
+}
+
+/** Height map for the raised (embossed) characters: white is high, black is flat. */
+export function drawBump(ctx: CanvasRenderingContext2D, o: BumpOptions) {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, CARD_W, CARD_H);
+  ctx.fillStyle = "#fff";
+  ctx.textBaseline = "alphabetic";
+  ctx.textAlign = "left";
+  ctx.font = `500 ${o.number.length > 20 ? 50 : 62}px ${o.fonts.mono}`;
+  ctx.fillText(o.number, 74, 440);
+  ctx.font = `500 40px ${o.fonts.mono}`;
+  ctx.fillText(o.expiry || "MM/YY", 640, 548);
+  ctx.font = `500 38px ${o.fonts.mono}`;
+  ctx.fillText((o.name || "YOUR NAME").toUpperCase().slice(0, 24), 74, 568);
 }
 
 /** Soft diagonal bands used by the moving highlight on top of the card. */

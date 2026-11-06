@@ -26,7 +26,7 @@ export function SiteFooter() {
               Source and issues on GitHub
             </a>
           </p>
-          <p className="text-ink-faint">Brand names and marks belong to their owners. The card marks here are simplified drawings.</p>
+          <p className="text-ink-faint">Brand names and logos belong to their owners and are shown for education only.</p>
         </div>
       </div>
     </footer>

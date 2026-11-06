@@ -1,5 +1,6 @@
 "use client";
 
+import { loadLogos } from "./logos";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { FaceFonts } from "./drawCard";
 
@@ -23,7 +24,7 @@ export function useFaceFonts(): FaceFonts {
     const sans = style.getPropertyValue("--font-ui").trim();
     if (!mono || !sans) return;
 
-    Promise.all([document.fonts.load(`500 40px ${mono}`), document.fonts.load(`700 40px ${sans}`)])
+    Promise.all([document.fonts.load(`500 40px ${mono}`), document.fonts.load(`700 40px ${sans}`), loadLogos()])
       .catch(() => undefined)
       .then(() => {
         if (!cancelled) setFonts({ mono: `${mono}, ${FALLBACK.mono}`, sans: `${sans}, ${FALLBACK.sans}` });

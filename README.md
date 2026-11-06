@@ -83,8 +83,8 @@ A few choices worth knowing about:
 - **The validation code has no UI in it.** Everything under [`src/lib/card`](src/lib/card) is plain TypeScript with
   no React or browser APIs, and has its own tests. Copy the folder and it works anywhere.
 - **The card faces are canvas textures.** The front and back are painted with the 2D canvas API and used as
-  textures on a beveled card body. That keeps the text sharp and avoids shipping any image files. The network marks are small
-  recreations drawn with shapes and text in [`logos.ts`](src/components/card3d/logos.ts), not the official artwork.
+  textures on a beveled card body. That keeps the text sharp. The network logos are SVG files in [`public/logos`](public/logos), painted onto
+  the card at load time. Raised digits come from a bump map, so the number catches the light like embossing.
 - **A flat fallback.** If WebGL is missing, the same card is drawn with CSS 3D instead. It also stops rendering
   when scrolled off screen, and motion is reduced if your system asks for it.
 - **Three.js loads late.** The 3D scenes are separate chunks that load on the client only. Each one stops rendering
@@ -116,4 +116,4 @@ Bug reports, range corrections, new languages for the code page and design ideas
 ## License
 
 Code is released under the [MIT License](LICENSE). Brand names belong to their owners and are used only to
-identify card networks. The marks on the cards are simplified drawings, not official assets.
+identify card networks. The logos are used on this free, non-commercial teaching site to show which network a number belongs to.

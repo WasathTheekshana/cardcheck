@@ -10,7 +10,7 @@ Humans are welcome to read this too.
 - **`src/lib/card` stays framework-free.** No React, no DOM, no Node-only APIs. Every behaviour change there needs a
   test next to it.
 - **Never write real card numbers** into code, tests or docs. Use `KNOWN_TEST_NUMBERS` or `generateTestNumber`.
-- **Logos are drawn in code only** (`src/components/card3d/logos.ts`), never image files. No analytics, no network calls from the browser.
+- **Network logos** live in `public/logos` and are served from this site only. Keep the site non-commercial and educational. No analytics, no network calls from the browser.
 - **Card textures read two CSS variables by name**, `--font-ui` and `--font-num`, set in `src/app/layout.tsx`. Rename
   them in both places or the 3D card falls back to system fonts.
 - **Writing style:** plain and specific, the way a person would explain it. No em dashes.

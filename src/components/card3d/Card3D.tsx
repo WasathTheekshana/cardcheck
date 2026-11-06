@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { BRANDS, KNOWN_TEST_NUMBERS, formatNumber } from "@/lib/card";
 import { seeded } from "../three/glyphs";
-import { CARD_H, CARD_RADIUS, CARD_W, drawBack, drawFront, drawSheen, type FaceBrand, type FaceFonts } from "./drawCard";
+import { CARD_H, CARD_RADIUS, CARD_W, drawBack, drawBump, drawFront, drawSheen, type FaceBrand, type FaceFonts } from "./drawCard";
 import { usePointerRef } from "./hooks";
 
 export type CardStatus = "idle" | "valid" | "invalid";
@@ -88,6 +88,11 @@ function CardMesh({ brand, number, name, expiry, cvv, dim, flipped, status, font
 
   const front = useMemo(() => makeCanvasTexture(CARD_W, CARD_H), []);
   const back = useMemo(() => makeCanvasTexture(CARD_W, CARD_H), []);
+  const bump = useMemo(() => {
+    const t = makeCanvasTexture(CARD_W, CARD_H);
+    t.texture.colorSpace = THREE.NoColorSpace;
+    return t;
+  }, []);
   const sheen = useMemo(() => {
     const t = makeCanvasTexture(256, 128);
     t.texture.wrapS = THREE.RepeatWrapping;
@@ -107,6 +112,11 @@ function CardMesh({ brand, number, name, expiry, cvv, dim, flipped, status, font
   }, [front, brand, number, name, expiry, dim, fonts]);
 
   useEffect(() => {
+    drawBump(bump.canvas.getContext("2d")!, { number, name, expiry, fonts });
+    bump.texture.needsUpdate = true;
+  }, [bump, number, name, expiry, fonts]);
+
+  useEffect(() => {
     drawBack(back.canvas.getContext("2d")!, { brand, cvv, name, fonts });
     back.texture.needsUpdate = true;
   }, [back, brand, cvv, name, fonts]);
@@ -117,8 +127,9 @@ function CardMesh({ brand, number, name, expiry, cvv, dim, flipped, status, font
       front.texture.dispose();
       back.texture.dispose();
       sheen.texture.dispose();
+      bump.texture.dispose();
     },
-    [bodyGeometry, front, back, sheen],
+    [bodyGeometry, front, back, sheen, bump],
   );
 
   // Animation state lives in a ref so frames never touch React.
@@ -196,6 +207,8 @@ function CardMesh({ brand, number, name, expiry, cvv, dim, flipped, status, font
         <planeGeometry args={[W, H]} />
         <meshPhysicalMaterial
           map={front.texture}
+          bumpMap={bump.texture}
+          bumpScale={1.6}
           alphaTest={0.5}
           roughness={0.5}
           metalness={0}

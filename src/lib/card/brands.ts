@@ -66,7 +66,7 @@ export const BRANDS: readonly Brand[] = [
     cvvLabel: "CVV",
     cvvLength: 3,
     luhnRequired: true,
-    colors: { from: "#4d6b7a", to: "#1f3340", ink: "#eef5f8" },
+    colors: { from: "#f3f5f7", to: "#c9d2d9", ink: "#1b2a35" },
   },
   {
     id: "jcb",

@@ -189,7 +189,7 @@ function CardMesh({ brand, number, name, expiry, cvv, dim, flipped, status, font
   return (
     <group ref={group}>
       <mesh geometry={bodyGeometry}>
-        <meshStandardMaterial ref={bodyMat} color={brand.colors.to} metalness={0.7} roughness={0.35} />
+        <meshStandardMaterial ref={bodyMat} color={brand.colors.to} metalness={0.2} roughness={0.42} />
       </mesh>
 
       <mesh position={[0, 0, HALF_THICKNESS + 0.002]}>

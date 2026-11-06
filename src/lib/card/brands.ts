@@ -19,7 +19,7 @@ export const BRANDS: readonly Brand[] = [
     cvvLabel: "CID",
     cvvLength: 4,
     luhnRequired: true,
-    colors: { from: "#2e6f9e", to: "#0b3a5c", ink: "#e8f4fb" },
+    colors: { from: "#3a97e0", to: "#0a58b5", ink: "#f2f9ff" },
   },
   {
     id: "visa",
@@ -55,7 +55,7 @@ export const BRANDS: readonly Brand[] = [
     cvvLabel: "CID",
     cvvLength: 3,
     luhnRequired: true,
-    colors: { from: "#f0803a", to: "#b8420c", ink: "#fff6ee" },
+    colors: { from: "#f7f6f2", to: "#d6d4cc", ink: "#1d1d22" },
   },
   {
     id: "diners",
@@ -100,7 +100,7 @@ export const BRANDS: readonly Brand[] = [
     cvvLabel: "CVC",
     cvvLength: 3,
     luhnRequired: true,
-    colors: { from: "#2c5cc5", to: "#a3202a", ink: "#f4f7ff" },
+    colors: { from: "#26376a", to: "#0c1330", ink: "#f4f7ff" },
   },
 ];
 

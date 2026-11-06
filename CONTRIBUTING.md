@@ -49,7 +49,8 @@ request. "I have a card that starts with this" is useful as a hint but is not en
 **Validation logic gets a test.** Anything under `src/lib/card` is the part people copy, so it has to be right. If
 you change a range, add the edge cases on both sides of it.
 
-**No brand logos.** Logos are trademarks. The cards use the network name in plain type.
+**Logos stay simple and drawn in code.** The marks in `src/components/card3d/logos.ts` are small recreations made
+from shapes and text. Do not add image files or official artwork. Logos are trademarks of their owners.
 
 **No tracking, no network calls from the browser.** The "nothing leaves your device" promise is part of the
 project. A change that adds analytics, a remote font loaded at runtime or a call to a BIN lookup API will not be

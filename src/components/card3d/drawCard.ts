@@ -1,4 +1,5 @@
 import type { Brand } from "@/lib/card";
+import { drawLogo } from "./logos";
 
 /** Texture size. The card is 85.6 x 53.98 mm, so keep that ratio. */
 export const CARD_W = 1024;
@@ -71,32 +72,63 @@ function paintBackground(ctx: CanvasRenderingContext2D, brand: FaceBrand) {
   shine.addColorStop(1, "rgba(255,255,255,0)");
   ctx.fillStyle = shine;
   ctx.fillRect(0, 0, CARD_W, CARD_H);
+
+  // Fine plastic grain, so the face is not a perfectly clean gradient.
+  for (let i = 0; i < 5200; i++) {
+    const v = Math.random() < 0.5 ? 255 : 0;
+    ctx.fillStyle = `rgba(${v},${v},${v},${0.025 + Math.random() * 0.03})`;
+    ctx.fillRect(Math.random() * CARD_W, Math.random() * CARD_H, 1.6, 1.6);
+  }
+
+  // A thin bright rim and a thin shadow just inside it, the way a real card edge catches light.
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "rgba(255,255,255,0.22)";
+  ctx.beginPath();
+  ctx.roundRect(2, 2, CARD_W - 4, CARD_H - 4, CARD_RADIUS - 2);
+  ctx.stroke();
+  ctx.strokeStyle = "rgba(0,0,0,0.3)";
+  ctx.beginPath();
+  ctx.roundRect(6, 6, CARD_W - 12, CARD_H - 12, CARD_RADIUS - 6);
+  ctx.stroke();
 }
 
 function paintChip(ctx: CanvasRenderingContext2D, x: number, y: number) {
-  const w = 128;
-  const h = 100;
+  const w = 132;
+  const h = 102;
   const g = ctx.createLinearGradient(x, y, x + w, y + h);
-  g.addColorStop(0, "#f6e3a6");
-  g.addColorStop(0.5, "#d9b45f");
-  g.addColorStop(1, "#b88a2e");
+  g.addColorStop(0, "#f8e8b0");
+  g.addColorStop(0.35, "#e2c06c");
+  g.addColorStop(0.7, "#c79a3f");
+  g.addColorStop(1, "#a9782a");
   ctx.fillStyle = g;
   ctx.beginPath();
-  ctx.roundRect(x, y, w, h, 16);
+  ctx.roundRect(x, y, w, h, 18);
   ctx.fill();
-
-  ctx.strokeStyle = "rgba(90,60,10,0.55)";
+  ctx.strokeStyle = "rgba(255,240,190,0.7)";
   ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(x, y + h / 3);
-  ctx.lineTo(x + w, y + h / 3);
-  ctx.moveTo(x, y + (h * 2) / 3);
-  ctx.lineTo(x + w, y + (h * 2) / 3);
-  ctx.moveTo(x + w / 2, y);
-  ctx.lineTo(x + w / 2, y + h);
   ctx.stroke();
+
+  // Contact pads: a centre pad with separating lines, like an EMV chip.
+  ctx.strokeStyle = "rgba(85,55,8,0.6)";
+  ctx.lineWidth = 2.2;
+  const cx0 = x + w * 0.34;
+  const cx1 = x + w * 0.66;
+  const y0 = y + h * 0.34;
+  const y1 = y + h * 0.66;
   ctx.beginPath();
-  ctx.roundRect(x + w * 0.3, y + h * 0.3, w * 0.4, h * 0.4, 8);
+  ctx.roundRect(cx0, y0, cx1 - cx0, y1 - y0, 7);
+  ctx.moveTo(x, y0);
+  ctx.lineTo(cx0, y0);
+  ctx.moveTo(x, y1);
+  ctx.lineTo(cx0, y1);
+  ctx.moveTo(cx1, y0);
+  ctx.lineTo(x + w, y0);
+  ctx.moveTo(cx1, y1);
+  ctx.lineTo(x + w, y1);
+  ctx.moveTo(x + w / 2, y);
+  ctx.lineTo(x + w / 2, y0);
+  ctx.moveTo(x + w / 2, y1);
+  ctx.lineTo(x + w / 2, y + h);
   ctx.stroke();
 }
 
@@ -133,12 +165,8 @@ export function drawFront(ctx: CanvasRenderingContext2D, o: FrontOptions) {
   paintChip(ctx, 78, 214);
   paintContactless(ctx, 292, 264, brand.colors.ink);
 
-  // Network name, top right. Plain type rather than a logo: logos are trademarks.
-  ctx.textBaseline = "alphabetic";
-  ctx.textAlign = "right";
-  ctx.fillStyle = brand.colors.ink;
-  ctx.font = `italic 700 ${brand.name.length > 12 ? 44 : 56}px ${fonts.sans}`;
-  ctx.fillText(brand.name.toUpperCase(), CARD_W - 70, 120);
+  // Network mark, top right. The neutral card has none until the number says which network it is.
+  drawLogo(ctx, brand.id, CARD_W - 70, 118, brand.colors.ink, fonts);
 
   ctx.textAlign = "left";
   ctx.globalAlpha = o.dim ? 0.55 : 1;
@@ -210,6 +238,8 @@ export function drawBack(ctx: CanvasRenderingContext2D, o: BackOptions) {
   ctx.textAlign = "left";
   ctx.font = `400 20px ${fonts.sans}`;
   ctx.fillText("For testing and learning. This is not a real card.", 60, 520);
+  ctx.globalAlpha = 1;
+  drawLogo(ctx, brand.id, CARD_W - 60, 505, brand.colors.ink, fonts, 0.62);
 
   ctx.restore();
 }
